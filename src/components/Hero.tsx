@@ -1,8 +1,9 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-sahara.jpg";
+import HeroBooking from "@/components/HeroBooking";
 
 const Hero = () => {
   const ref = useRef<HTMLElement>(null);
@@ -12,7 +13,7 @@ const Hero = () => {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
   return (
-    <section ref={ref} className="relative h-[100vh] min-h-[680px] flex items-end overflow-hidden">
+    <section ref={ref} className="relative min-h-[100vh] flex items-end overflow-hidden">
       <motion.div
         style={{ y, scale }}
         className="absolute inset-0 bg-cover bg-center"
@@ -47,7 +48,7 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      <motion.div style={{ opacity }} className="container-edge relative z-10 pb-20 md:pb-28 text-white">
+      <motion.div style={{ opacity }} className="container-edge relative z-10 pt-32 pb-16 md:pb-24 text-white">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -98,20 +99,10 @@ const Hero = () => {
             Build a custom journey
           </Link>
         </motion.div>
+
+        <HeroBooking />
       </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-white/70 z-10"
-      >
-        <span className="font-mono-accent text-[10px]">Scroll</span>
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.8, repeat: Infinity }}>
-          <ArrowDown className="h-4 w-4" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 };

@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Tours from "./pages/Tours";
+import TourDetail from "./pages/TourDetail";
 import Excursions from "./pages/Excursions";
 import Transfers from "./pages/Transfers";
 import Custom from "./pages/Custom";
@@ -25,6 +26,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/tours" element={<Tours />} />
+          <Route path="/tours/:slug" element={<TourDetail />} />
           <Route path="/excursions" element={<Excursions />} />
           <Route path="/transfers" element={<Transfers />} />
           <Route path="/custom" element={<Custom />} />
