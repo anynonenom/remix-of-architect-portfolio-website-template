@@ -8,11 +8,14 @@ export default {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      screens: { "2xl": "1400px" },
     },
     extend: {
+      fontFamily: {
+        sans: ['Outfit', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        display: ['"Cormorant Garamond"', '"Times New Roman"', 'serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -22,6 +25,9 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
+          deep: "hsl(var(--primary-deep))",
+          royal: "hsl(var(--primary-royal))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -38,6 +44,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          soft: "hsl(var(--accent-soft))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -73,39 +80,45 @@ export default {
           to: { height: "0" },
         },
         "fade-in-up": {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(30px)"
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translateY(0)"
-          }
+          "0%": { opacity: "0", transform: "translateY(30px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
         "scale-in": {
-          "0%": {
-            opacity: "0",
-            transform: "scale(0.95)"
-          },
-          "100%": {
-            opacity: "1",
-            transform: "scale(1)"
-          }
-        }
+          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        "float-y": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-12px)" },
+        },
+        "marquee": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        "ken-burns": {
+          "0%": { transform: "scale(1) translate(0,0)" },
+          "100%": { transform: "scale(1.12) translate(-1%, -1%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in-up": "fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
-        "scale-in": "scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+        "fade-in-up": "fade-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "scale-in": "scale-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "float-y": "float-y 6s ease-in-out infinite",
+        "marquee": "marquee 40s linear infinite",
+        "ken-burns": "ken-burns 18s ease-out forwards",
       },
       backgroundImage: {
         'gradient-hero': 'var(--gradient-hero)',
         'gradient-overlay': 'var(--gradient-overlay)',
+        'gradient-royal': 'var(--gradient-royal)',
+        'gradient-gold': 'var(--gradient-gold)',
       },
       boxShadow: {
         'architectural': 'var(--shadow-architectural)',
         'elegant': 'var(--shadow-elegant)',
+        'gold': 'var(--shadow-gold)',
       },
       transitionTimingFunction: {
         'smooth': 'cubic-bezier(0.16, 1, 0.3, 1)',
