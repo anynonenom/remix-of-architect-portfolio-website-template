@@ -1,20 +1,27 @@
-import Navigation from "@/components/Navigation";
+import Layout from "@/components/Layout";
+import { Seo } from "@/components/Seo";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
-import About from "@/components/About";
-import Portfolio from "@/components/Portfolio";
-import Contact from "@/components/Contact";
+import FeaturedExperiences from "@/components/home/FeaturedExperiences";
+import WhyChoose from "@/components/home/WhyChoose";
+import Testimonials from "@/components/home/Testimonials";
+import CtaBanner from "@/components/home/CtaBanner";
+import Newsletter from "@/components/home/Newsletter";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      <Navigation />
+    <Layout>
+      <Seo
+        title="Bo Voyages — Curated Morocco Journeys & Premium Travel"
+        description="Cinematic Morocco journeys, private transfers and bespoke experiences crafted by local experts. Begin your next adventure with Bo Voyages."
+        path="/"
+      />
       <Hero />
-      <Services />
-      <About />
-      <Portfolio />
-      <Contact />
-    </div>
+      <FeaturedExperiences />
+      <WhyChoose />
+      <Testimonials />
+      <CtaBanner />
+      <Newsletter />
+    </Layout>
   );
 };
 
