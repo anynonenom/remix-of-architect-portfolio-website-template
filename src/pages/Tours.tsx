@@ -1,25 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { ArrowUpRight, Clock, MapPin } from "lucide-react";
 import heroImg from "@/assets/hero-tours.jpg";
-import riad from "@/assets/feature-riad.jpg";
-import medina from "@/assets/feature-medina.jpg";
-import atlas from "@/assets/feature-atlas.jpg";
-import coast from "@/assets/feature-coast.jpg";
-import sahara from "@/assets/hero-sahara.jpg";
-import excursions from "@/assets/hero-excursions.jpg";
-
-const tours = [
-  { img: sahara, region: "Sahara", title: "Merzouga dunes & nomad nights", days: 4, price: 890, level: "Easy" },
-  { img: riad, region: "Imperial cities", title: "Marrakech, Fes & Chefchaouen", days: 8, price: 1690, level: "Easy" },
-  { img: atlas, region: "Atlas", title: "High Atlas Berber trek", days: 5, price: 1120, level: "Moderate" },
-  { img: coast, region: "Coast", title: "Essaouira & Atlantic shores", days: 3, price: 640, level: "Easy" },
-  { img: medina, region: "Culture", title: "Souks, hammams & saffron", days: 6, price: 1340, level: "Easy" },
-  { img: excursions, region: "Marrakech", title: "Hot air balloon over palmeraie", days: 1, price: 220, level: "Easy" },
-];
+import { tours } from "@/data/tours";
 
 const filters = ["All", "Sahara", "Atlas", "Coast", "Imperial cities", "Culture", "Marrakech"];
 
@@ -63,11 +50,11 @@ const Tours = () => {
 
           <Stagger className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {list.map((t) => (
-              <StaggerItem key={t.title}>
-                <article className="group relative overflow-hidden bg-card">
+              <StaggerItem key={t.slug}>
+                <Link to={`/tours/${t.slug}`} className="group relative overflow-hidden bg-card block">
                   <div className="relative aspect-[4/5] overflow-hidden">
                     <img
-                      src={t.img}
+                      src={t.hero}
                       alt={t.title}
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-[1400ms] ease-smooth group-hover:scale-110"
@@ -82,18 +69,18 @@ const Tours = () => {
                       <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" />{t.days} days</span>
                       <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3" />{t.level}</span>
                     </div>
-                    <h3 className="font-display text-2xl md:text-3xl text-foreground mb-6">{t.title}</h3>
+                    <h3 className="font-display text-2xl md:text-3xl text-foreground mb-6 group-hover:text-accent transition-colors duration-500">{t.title}</h3>
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="font-mono-accent text-[10px] text-muted-foreground">From</div>
                         <div className="font-display text-3xl text-primary-deep">€{t.price}</div>
                       </div>
-                      <button className="h-12 w-12 rounded-full bg-accent text-primary-deep grid place-items-center transition-transform duration-500 group-hover:rotate-45">
+                      <span className="h-12 w-12 rounded-full bg-accent text-primary-deep grid place-items-center transition-transform duration-500 group-hover:rotate-45">
                         <ArrowUpRight className="h-5 w-5" />
-                      </button>
+                      </span>
                     </div>
                   </div>
-                </article>
+                </Link>
               </StaggerItem>
             ))}
           </Stagger>
