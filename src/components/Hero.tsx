@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowDown } from "lucide-react";
 import heroImage from "@/assets/hero-sahara.jpg";
+import HeroBooking from "@/components/HeroBooking";
 
 const Hero = () => {
   const ref = useRef<HTMLElement>(null);
@@ -98,6 +99,8 @@ const Hero = () => {
             Build a custom journey
           </Link>
         </motion.div>
+
+        <HeroBooking />
       </motion.div>
 
       {/* Scroll indicator */}
