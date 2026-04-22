@@ -164,6 +164,10 @@
   .btn-ghost-light {
     @apply inline-flex items-center justify-center gap-3 border border-white/40 text-white px-8 py-4 font-mono-accent text-xs transition-all duration-500 ease-out hover:bg-white hover:text-primary-deep;
   }
+
+  .input {
+    @apply w-full bg-transparent border-b border-foreground/20 px-0 py-3 text-foreground focus:outline-none focus:border-accent transition-colors duration-300 placeholder:text-muted-foreground;
+  }
 }
 
 @layer utilities {
