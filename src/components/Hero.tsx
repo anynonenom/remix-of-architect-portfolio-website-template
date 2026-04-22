@@ -13,7 +13,7 @@ const Hero = () => {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
   return (
-    <section ref={ref} className="relative h-[100vh] min-h-[680px] flex items-end overflow-hidden">
+    <section ref={ref} className="relative min-h-[100vh] flex items-end overflow-hidden">
       <motion.div
         style={{ y, scale }}
         className="absolute inset-0 bg-cover bg-center"
@@ -48,7 +48,7 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      <motion.div style={{ opacity }} className="container-edge relative z-10 pb-20 md:pb-28 text-white">
+      <motion.div style={{ opacity }} className="container-edge relative z-10 pt-32 pb-16 md:pb-24 text-white">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
