@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/bo-voyages-logo.png";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const links = [
   { to: "/", label: "Home" },
@@ -78,26 +79,29 @@ const Navigation = () => {
           ))}
         </div>
 
-        <Link
-          to="/contact"
-          className={cn(
-            "hidden lg:inline-flex font-mono-accent text-[11px] px-5 py-3 transition-all duration-500",
-            "bg-accent text-accent-foreground hover:shadow-gold hover:-translate-y-0.5",
-          )}
-        >
-          Plan a journey
-        </Link>
+        <div className="flex items-center gap-3">
+          <ThemeToggle variant={onHero ? "ghost-light" : "default"} className="hidden sm:grid" />
+          <Link
+            to="/contact"
+            className={cn(
+              "hidden lg:inline-flex font-mono-accent text-[11px] px-5 py-3 transition-all duration-500",
+              "bg-accent text-accent-foreground hover:shadow-gold hover:-translate-y-0.5",
+            )}
+          >
+            Plan a journey
+          </Link>
 
-        <button
-          onClick={() => setOpen(true)}
-          aria-label="Open menu"
-          className={cn(
-            "lg:hidden h-10 w-10 grid place-items-center rounded-full transition-colors",
-            onHero ? "text-white" : "text-foreground",
-          )}
-        >
-          <Menu className="h-5 w-5" />
-        </button>
+          <button
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+            className={cn(
+              "lg:hidden h-10 w-10 grid place-items-center rounded-full transition-colors",
+              onHero ? "text-white" : "text-foreground",
+            )}
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       {/* Mobile drawer */}
