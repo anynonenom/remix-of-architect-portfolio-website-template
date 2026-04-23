@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock, Users, Calendar, Check, X, ArrowUpRight } from "lucide-react";
@@ -5,6 +6,7 @@ import Layout from "@/components/Layout";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { findTour, tours } from "@/data/tours";
+import ResultDialog, { initialResult, type ResultDialogState } from "@/components/ResultDialog";
 
 const TourDetail = () => {
   const { slug } = useParams();
