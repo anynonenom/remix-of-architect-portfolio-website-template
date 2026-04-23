@@ -11,10 +11,20 @@ import ResultDialog, { initialResult, type ResultDialogState } from "@/component
 const TourDetail = () => {
   const { slug } = useParams();
   const tour = findTour(slug || "");
+  const [result, setResult] = useState<ResultDialogState>(initialResult);
 
   if (!tour) return <Navigate to="/tours" replace />;
 
   const related = tours.filter((t) => t.slug !== tour.slug).slice(0, 3);
+
+  const handleReserve = () => {
+    setResult({
+      open: true,
+      status: "success",
+      title: "Reservation request sent ✦",
+      description: `Thank you for booking "${tour.title}". Our concierge will email you within a few hours to confirm dates, payment and final details.`,
+    });
+  };
 
   return (
     <Layout>
@@ -108,7 +118,7 @@ const TourDetail = () => {
                 <Detail label="Level" value={tour.level} />
                 <Detail label="Season" value={tour.bestSeason} />
               </div>
-              <Link to="/contact" className="btn-gold w-full justify-center">Reserve this journey</Link>
+              <button onClick={handleReserve} type="button" className="btn-gold w-full justify-center">Reserve this journey</button>
               <Link to="/custom" className="block text-center font-mono-accent text-[11px] mt-4 link-underline mx-auto w-fit">Customise it instead</Link>
             </div>
           </Reveal>
