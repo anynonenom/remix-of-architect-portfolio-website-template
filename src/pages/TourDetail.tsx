@@ -231,6 +231,12 @@ const TourDetail = () => {
           </Stagger>
         </div>
       </section>
+
+      <ResultDialog
+        state={result}
+        onOpenChange={(open) => setResult((s) => ({ ...s, open }))}
+        ctaLabel={result.status === "success" ? "Wonderful" : "Try again"}
+      />
     </Layout>
   );
 };
