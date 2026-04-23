@@ -1,25 +1,165 @@
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
-import { Plane, MapPin, Users, Car, ChevronLeft, ChevronRight, ShieldCheck, Clock4, BadgeCheck } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import {
+  Plane,
+  MapPin,
+  Users,
+  Car,
+  ChevronLeft,
+  ChevronRight,
+  ShieldCheck,
+  Clock4,
+  BadgeCheck,
+  Briefcase,
+  Wifi,
+  Snowflake,
+  Music2,
+  Crown,
+  Mountain,
+  Bus,
+  Bike,
+  Sparkles,
+} from "lucide-react";
 import { z } from "zod";
+import ResultDialog, { initialResult, type ResultDialogState } from "@/components/ResultDialog";
+import sedanImg from "@/assets/fleet-sedan.jpg";
+import vanImg from "@/assets/fleet-van.jpg";
+import suvImg from "@/assets/fleet-suv.jpg";
+import fourByFourImg from "@/assets/fleet-4x4.jpg";
+import minibusImg from "@/assets/fleet-minibus.jpg";
+import coachImg from "@/assets/fleet-coach.jpg";
+import limoImg from "@/assets/fleet-limo.jpg";
+import convertibleImg from "@/assets/fleet-convertible.jpg";
+import bikeImg from "@/assets/fleet-bike.jpg";
 import heroImg from "@/assets/hero-transfers.jpg";
 
 const types = [
   { icon: Plane, title: "Airport transfers", body: "Door-to-door from Casablanca, Marrakech, Fes and Rabat airports." },
   { icon: MapPin, title: "Inter-city transfers", body: "Comfortable rides between Morocco's cities and oases." },
-  { icon: Users, title: "Group shuttles", body: "Vans up to 16 seats for families, weddings and small groups." },
+  { icon: Users, title: "Group shuttles", body: "Vans up to 50 seats for families, weddings and corporate groups." },
   { icon: Car, title: "Private drivers", body: "Multi-day private chauffeurs who double as local hosts." },
 ];
 
-const fleet = [
-  { name: "Mercedes E-Class", seats: 3, luggage: 3, image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=900&q=80" },
-  { name: "Mercedes V-Class", seats: 6, luggage: 6, image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=900&q=80" },
-  { name: "Toyota Land Cruiser", seats: 4, luggage: 4, image: "https://images.unsplash.com/photo-1519440232151-3a76dadcdf09?w=900&q=80" },
-  { name: "Mini-Bus 16 seats", seats: 16, luggage: 16, image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=900&q=80" },
+type Vehicle = {
+  name: string;
+  category: string;
+  seats: number;
+  luggage: number;
+  basePrice: number;
+  image: string;
+  description: string;
+  features: string[];
+  icon: typeof Car;
+  badge?: string;
+};
+
+const fleet: Vehicle[] = [
+  {
+    name: "Mercedes E-Class",
+    category: "Executive Sedan",
+    seats: 3,
+    luggage: 3,
+    basePrice: 45,
+    image: sedanImg,
+    description: "Refined city sedan for couples and business travellers — quiet, leather-clad, perfectly air-conditioned.",
+    features: ["Leather interior", "Bottled water", "Wi-Fi", "Phone chargers"],
+    icon: Car,
+  },
+  {
+    name: "Mercedes S-Class",
+    category: "Luxury Limousine",
+    seats: 3,
+    luggage: 3,
+    basePrice: 95,
+    image: limoImg,
+    description: "Top-tier executive comfort for VIP arrivals, weddings and special evenings out.",
+    features: ["Massage seats", "Champagne service", "Privacy glass", "Red carpet welcome"],
+    icon: Crown,
+    badge: "VIP",
+  },
+  {
+    name: "Mercedes V-Class",
+    category: "Premium Van",
+    seats: 6,
+    luggage: 6,
+    basePrice: 75,
+    image: vanImg,
+    description: "Spacious cabin with captain seats — ideal for families and small groups touring the imperial cities.",
+    features: ["Captain seats", "Panoramic roof", "USB ports", "Climate zones"],
+    icon: Users,
+  },
+  {
+    name: "Mercedes G-Class",
+    category: "Luxury SUV",
+    seats: 4,
+    luggage: 4,
+    basePrice: 110,
+    image: suvImg,
+    description: "Iconic statement SUV combining off-road capability with luxury — perfect for Atlas day trips in style.",
+    features: ["All-wheel drive", "Heated seats", "Premium sound", "Off-road ready"],
+    icon: Mountain,
+    badge: "Premium",
+  },
+  {
+    name: "Toyota Land Cruiser",
+    category: "4x4 Adventure",
+    seats: 4,
+    luggage: 4,
+    basePrice: 90,
+    image: fourByFourImg,
+    description: "Battle-tested desert workhorse — the right vehicle for Sahara dunes, Atlas passes and remote tracks.",
+    features: ["4x4 capable", "Roof rack", "Cool box", "Sand recovery kit"],
+    icon: Mountain,
+  },
+  {
+    name: "Mercedes Sprinter",
+    category: "Mini-Bus 16 seats",
+    seats: 16,
+    luggage: 16,
+    basePrice: 140,
+    image: minibusImg,
+    description: "High-roof minibus with plush reclining seats for medium groups, weddings and incentive travel.",
+    features: ["Reclining seats", "Onboard fridge", "PA system", "Tinted windows"],
+    icon: Users,
+  },
+  {
+    name: "Luxury Coach",
+    category: "50-seat Touring Bus",
+    seats: 50,
+    luggage: 50,
+    basePrice: 320,
+    image: coachImg,
+    description: "Full-size touring coach for conferences, large groups and multi-city itineraries across Morocco.",
+    features: ["Toilet onboard", "Reclining seats", "TV screens", "Wi-Fi & USB"],
+    icon: Bus,
+  },
+  {
+    name: "Classic Cabriolet",
+    category: "Vintage Convertible",
+    seats: 2,
+    luggage: 2,
+    basePrice: 180,
+    image: convertibleImg,
+    description: "A romantic convertible for coastal drives between Essaouira and Agadir — top down, wind in your hair.",
+    features: ["Convertible top", "Picnic basket", "Photo stops", "Driver guide"],
+    icon: Sparkles,
+    badge: "Iconic",
+  },
+  {
+    name: "BMW GS 1250",
+    category: "Adventure Motorbike",
+    seats: 1,
+    luggage: 1,
+    basePrice: 130,
+    image: bikeImg,
+    description: "For solo riders craving the open desert. Comes with helmet, panniers, support vehicle and route notes.",
+    features: ["Full kit included", "Support van", "Insurance", "GPS routes"],
+    icon: Bike,
+  },
 ];
 
 const cities = ["Marrakech", "Casablanca", "Fes", "Rabat", "Essaouira", "Chefchaouen", "Merzouga", "Ouarzazate"];
@@ -27,8 +167,8 @@ const cities = ["Marrakech", "Casablanca", "Fes", "Rabat", "Essaouira", "Chefcha
 const schema = z.object({
   from: z.string().trim().min(2).max(80),
   to: z.string().trim().min(2).max(80),
-  date: z.string().min(1),
-  pax: z.number().min(1).max(16),
+  date: z.string().min(1, "Please pick a date and time"),
+  pax: z.number().min(1).max(50),
   vehicle: z.string(),
 });
 
@@ -37,34 +177,40 @@ const Transfers = () => {
   const [to, setTo] = useState("Marrakech Medina");
   const [date, setDate] = useState("");
   const [pax, setPax] = useState(2);
-  const [vehicle, setVehicle] = useState("Mercedes E-Class");
+  const [vehicle, setVehicle] = useState(fleet[0].name);
   const [fleetIndex, setFleetIndex] = useState(0);
+  const [result, setResult] = useState<ResultDialogState>(initialResult);
 
   const price = useMemo(() => {
-    const base: Record<string, number> = {
-      "Mercedes E-Class": 45,
-      "Mercedes V-Class": 75,
-      "Toyota Land Cruiser": 90,
-      "Mini-Bus 16 seats": 140,
-    };
-    return base[vehicle] + Math.max(0, pax - 1) * 8;
+    const v = fleet.find((f) => f.name === vehicle) ?? fleet[0];
+    return v.basePrice + Math.max(0, pax - 1) * 8;
   }, [vehicle, pax]);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const r = schema.safeParse({ from, to, date, pax, vehicle });
     if (!r.success) {
-      toast({ title: "Please complete the form", description: r.error.issues[0].message, variant: "destructive" });
+      setResult({
+        open: true,
+        status: "error",
+        title: "We couldn't send your request",
+        description: r.error.issues[0].message || "Please review the form and try again.",
+      });
       return;
     }
-    toast({ title: "Transfer requested ✦", description: `${from} → ${to} on ${date} for ${pax} pax. We'll confirm within an hour.` });
+    setResult({
+      open: true,
+      status: "success",
+      title: "Transfer requested ✦",
+      description: `${from} → ${to} on ${new Date(date).toLocaleString()} for ${pax} passenger(s) in a ${vehicle}. Our concierge will confirm within the hour.`,
+    });
   };
 
   return (
     <Layout>
       <Seo
         title="Private Transfers across Morocco — Bo Voyages"
-        description="Airport pickups, inter-city rides and multi-day private drivers. Premium fleet, English-speaking drivers, instant quotes."
+        description="Airport pickups, inter-city rides and multi-day private drivers. Premium fleet from sedans to coaches, English-speaking drivers, instant quotes."
         path="/transfers"
       />
       <PageHero
@@ -107,7 +253,7 @@ const Transfers = () => {
             </Reveal>
             <Reveal delay={0.2}>
               <p className="font-serif text-lg text-muted-foreground leading-relaxed">
-                Choose your route, pax and vehicle — see your price live and lock the booking in under a minute.
+                Choose your route, passengers and vehicle — see your price live and lock the booking in under a minute.
               </p>
             </Reveal>
           </div>
@@ -129,11 +275,11 @@ const Transfers = () => {
                   <input type="datetime-local" value={date} onChange={(e) => setDate(e.target.value)} className="input" required />
                 </Field>
                 <Field label="Passengers">
-                  <input type="number" min={1} max={16} value={pax} onChange={(e) => setPax(parseInt(e.target.value || "1"))} className="input" />
+                  <input type="number" min={1} max={50} value={pax} onChange={(e) => setPax(parseInt(e.target.value || "1"))} className="input" />
                 </Field>
               </div>
               <Field label="Vehicle">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-[280px] overflow-y-auto pr-1">
                   {fleet.map((v) => (
                     <button
                       type="button"
@@ -143,7 +289,7 @@ const Transfers = () => {
                         vehicle === v.name ? "border-accent bg-accent/10" : "border-border hover:border-foreground"
                       }`}
                     >
-                      <div className="font-mono-accent text-[10px] text-muted-foreground mb-1">{v.seats} seats</div>
+                      <div className="font-mono-accent text-[10px] text-muted-foreground mb-1">{v.seats} seats · €{v.basePrice}</div>
                       <div className="font-display text-base leading-tight">{v.name}</div>
                     </button>
                   ))}
@@ -161,39 +307,150 @@ const Transfers = () => {
         </div>
       </section>
 
-      {/* Fleet carousel */}
+      {/* Full fleet grid — every vehicle type */}
       <section className="py-24 md:py-32 bg-background">
+        <div className="container-edge">
+          <Reveal>
+            <div className="font-mono-accent text-[11px] text-accent mb-4">◆ The full fleet</div>
+          </Reveal>
+          <Reveal delay={0.1} as="h2">
+            <h2 className="font-display text-5xl md:text-6xl text-architectural mb-4 max-w-3xl">Every vehicle, every journey.</h2>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p className="font-serif text-lg text-muted-foreground max-w-2xl mb-16">
+              From quiet executive sedans to 50-seat luxury coaches and adventure motorbikes — we have the right wheels for every kind of traveller.
+            </p>
+          </Reveal>
+
+          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {fleet.map((v) => (
+              <StaggerItem key={v.name}>
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="group bg-card border border-border overflow-hidden h-full flex flex-col"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+                    <img
+                      src={v.image}
+                      alt={v.name}
+                      loading="lazy"
+                      width={1024}
+                      height={768}
+                      className="h-full w-full object-cover transition-transform duration-[1400ms] ease-smooth group-hover:scale-110"
+                    />
+                    {v.badge && (
+                      <div className="absolute top-4 left-4 bg-accent text-accent-foreground font-mono-accent text-[10px] px-3 py-1.5 tracking-wider">
+                        {v.badge}
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm font-mono-accent text-[10px] px-3 py-1.5 text-foreground">
+                      from €{v.basePrice}
+                    </div>
+                  </div>
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-center gap-2 font-mono-accent text-[10px] text-accent mb-3 tracking-wider">
+                      <v.icon className="h-3.5 w-3.5" />
+                      {v.category}
+                    </div>
+                    <h3 className="font-display text-2xl mb-2 leading-tight">{v.name}</h3>
+                    <p className="font-serif text-base text-muted-foreground leading-relaxed mb-5 flex-1">
+                      {v.description}
+                    </p>
+                    <div className="flex items-center gap-4 pb-4 border-b border-border mb-4 text-xs">
+                      <span className="flex items-center gap-1.5 text-muted-foreground">
+                        <Users className="h-3.5 w-3.5 text-accent" /> {v.seats} pax
+                      </span>
+                      <span className="flex items-center gap-1.5 text-muted-foreground">
+                        <Briefcase className="h-3.5 w-3.5 text-accent" /> {v.luggage} bags
+                      </span>
+                    </div>
+                    <ul className="space-y-1.5 mb-5">
+                      {v.features.map((f) => (
+                        <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <span className="h-1 w-1 rounded-full bg-accent" /> {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setVehicle(v.name);
+                        document.querySelector(".container-edge form")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }}
+                      className="font-mono-accent text-[11px] tracking-wider text-foreground hover:text-accent transition-colors text-left link-underline w-fit"
+                    >
+                      Select & quote →
+                    </button>
+                  </div>
+                </motion.div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* Featured fleet carousel */}
+      <section className="py-24 md:py-32 bg-secondary">
         <div className="container-edge">
           <div className="flex items-end justify-between gap-6 mb-12">
             <Reveal>
               <div>
-                <div className="font-mono-accent text-[11px] text-accent mb-4">◆ The fleet</div>
+                <div className="font-mono-accent text-[11px] text-accent mb-4">◆ Spotlight</div>
                 <h2 className="font-display text-5xl md:text-6xl text-architectural">Quietly capable.</h2>
               </div>
             </Reveal>
             <div className="flex gap-3">
-              <button onClick={() => setFleetIndex((i) => (i - 1 + fleet.length) % fleet.length)} aria-label="Previous" className="h-11 w-11 grid place-items-center border border-border hover:bg-primary-deep hover:text-white transition-colors"><ChevronLeft className="h-4 w-4" /></button>
-              <button onClick={() => setFleetIndex((i) => (i + 1) % fleet.length)} aria-label="Next" className="h-11 w-11 grid place-items-center border border-border hover:bg-primary-deep hover:text-white transition-colors"><ChevronRight className="h-4 w-4" /></button>
+              <button onClick={() => setFleetIndex((i) => (i - 1 + fleet.length) % fleet.length)} aria-label="Previous" className="h-11 w-11 grid place-items-center border border-border bg-background hover:bg-primary-deep hover:text-white transition-colors"><ChevronLeft className="h-4 w-4" /></button>
+              <button onClick={() => setFleetIndex((i) => (i + 1) % fleet.length)} aria-label="Next" className="h-11 w-11 grid place-items-center border border-border bg-background hover:bg-primary-deep hover:text-white transition-colors"><ChevronRight className="h-4 w-4" /></button>
             </div>
           </div>
           <Reveal>
             <div className="grid lg:grid-cols-2 gap-10 items-center">
-              <div className="aspect-[4/3] overflow-hidden bg-secondary">
-                <img key={fleet[fleetIndex].image} src={fleet[fleetIndex].image} alt={fleet[fleetIndex].name} loading="lazy" className="h-full w-full object-cover animate-scale-in" />
+              <div className="aspect-[4/3] overflow-hidden bg-background">
+                <img key={fleet[fleetIndex].image} src={fleet[fleetIndex].image} alt={fleet[fleetIndex].name} loading="lazy" width={1024} height={768} className="h-full w-full object-cover animate-scale-in" />
               </div>
               <div>
-                <div className="font-mono-accent text-[10px] text-accent mb-3">0{fleetIndex + 1} / 0{fleet.length}</div>
+                <div className="font-mono-accent text-[10px] text-accent mb-3">{(fleetIndex + 1).toString().padStart(2, "0")} / {fleet.length.toString().padStart(2, "0")} · {fleet[fleetIndex].category}</div>
                 <h3 className="font-display text-5xl mb-4">{fleet[fleetIndex].name}</h3>
                 <p className="font-serif text-lg text-muted-foreground leading-relaxed mb-8">
-                  Air-conditioned, professionally maintained, with bottled water, charging cables and Wi-Fi as standard.
+                  {fleet[fleetIndex].description}
                 </p>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-3 gap-6">
                   <Stat label="Seats" value={fleet[fleetIndex].seats.toString()} />
                   <Stat label="Luggage" value={fleet[fleetIndex].luggage.toString()} />
+                  <Stat label="From" value={`€${fleet[fleetIndex].basePrice}`} />
                 </div>
               </div>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* In-cabin amenities */}
+      <section className="py-24 bg-background">
+        <div className="container-edge">
+          <Reveal>
+            <div className="font-mono-accent text-[11px] text-accent mb-4 text-center">◆ Onboard, always</div>
+          </Reveal>
+          <Reveal delay={0.1} as="h2">
+            <h2 className="font-display text-4xl md:text-5xl text-architectural text-center mb-16">Standard in every vehicle.</h2>
+          </Reveal>
+          <Stagger className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { icon: Snowflake, label: "Climate control" },
+              { icon: Wifi, label: "Onboard Wi-Fi" },
+              { icon: Music2, label: "Curated playlists" },
+              { icon: Briefcase, label: "Bottled water" },
+            ].map((a) => (
+              <StaggerItem key={a.label}>
+                <div className="p-8 bg-secondary text-center hover:bg-primary-deep hover:text-white transition-colors duration-500 group">
+                  <a.icon className="h-7 w-7 mx-auto mb-4 text-accent group-hover:text-accent" />
+                  <div className="font-display text-lg">{a.label}</div>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 
@@ -214,6 +471,12 @@ const Transfers = () => {
           ))}
         </div>
       </section>
+
+      <ResultDialog
+        state={result}
+        onOpenChange={(open) => setResult((s) => ({ ...s, open }))}
+        ctaLabel={result.status === "success" ? "Wonderful" : "Try again"}
+      />
     </Layout>
   );
 };

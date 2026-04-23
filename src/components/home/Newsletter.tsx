@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { Reveal } from "@/components/motion/Reveal";
-import { toast } from "@/hooks/use-toast";
+import ResultDialog, { initialResult, type ResultDialogState } from "@/components/ResultDialog";
 
 const schema = z.object({
   email: z.string().trim().email("Please enter a valid email").max(255),
@@ -10,17 +10,28 @@ const schema = z.object({
 const Newsletter = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<ResultDialogState>(initialResult);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const r = schema.safeParse({ email });
     if (!r.success) {
-      toast({ title: "Invalid email", description: r.error.issues[0].message, variant: "destructive" });
+      setResult({
+        open: true,
+        status: "error",
+        title: "Invalid email",
+        description: r.error.issues[0].message,
+      });
       return;
     }
     setLoading(true);
     setTimeout(() => {
-      toast({ title: "Welcome aboard ✦", description: "We'll send you stories from the road, never spam." });
+      setResult({
+        open: true,
+        status: "success",
+        title: "Welcome aboard ✦",
+        description: "You're subscribed. We'll send you stories from the road, never spam.",
+      });
       setEmail("");
       setLoading(false);
     }, 600);
@@ -60,6 +71,12 @@ const Newsletter = () => {
           </form>
         </Reveal>
       </div>
+
+      <ResultDialog
+        state={result}
+        onOpenChange={(open) => setResult((s) => ({ ...s, open }))}
+        ctaLabel={result.status === "success" ? "Lovely" : "Try again"}
+      />
     </section>
   );
 };
