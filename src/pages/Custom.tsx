@@ -6,7 +6,7 @@ import PageHero from "@/components/PageHero";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { ChevronDown, Check, Map, Calendar, Heart, Mail, ArrowRight, Compass, Mountain, Building2, Waves, Camera, Sparkles } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import ResultDialog, { initialResult, type ResultDialogState } from "@/components/ResultDialog";
 import heroImg from "@/assets/hero-custom.jpg";
 
 const interests = [
@@ -45,6 +45,7 @@ const fullSchema = z.object({
 const Custom = () => {
   const [step, setStep] = useState(0);
   const [open, setOpen] = useState<number | null>(0);
+  const [result, setResult] = useState<ResultDialogState>(initialResult);
   const [data, setData] = useState({
     duration: "7-10 days",
     date: "",
@@ -66,10 +67,20 @@ const Custom = () => {
   const submit = () => {
     const r = fullSchema.safeParse(data);
     if (!r.success) {
-      toast({ title: "Please complete all fields", description: r.error.issues[0].message, variant: "destructive" });
+      setResult({
+        open: true,
+        status: "error",
+        title: "Please complete all fields",
+        description: r.error.issues[0].message || "Some details are missing — please review and try again.",
+      });
       return;
     }
-    toast({ title: "Your dream is in good hands ✦", description: "We'll send a custom itinerary within 48 hours." });
+    setResult({
+      open: true,
+      status: "success",
+      title: "Your dream is in good hands ✦",
+      description: "Thank you — we'll send a fully crafted itinerary to your inbox within 48 hours.",
+    });
     setStep(0);
     setData({ duration: "7-10 days", date: "", group: 2, budget: "Premium", interests: [], name: "", email: "", notes: "" });
   };
@@ -247,6 +258,12 @@ const Custom = () => {
           </div>
         </div>
       </section>
+
+      <ResultDialog
+        state={result}
+        onOpenChange={(open) => setResult((s) => ({ ...s, open }))}
+        ctaLabel={result.status === "success" ? "Wonderful" : "Try again"}
+      />
     </Layout>
   );
 };

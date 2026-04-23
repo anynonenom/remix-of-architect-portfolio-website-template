@@ -5,31 +5,42 @@ import PageHero from "@/components/PageHero";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Mail, Phone, MapPin, Send, Clock4, Instagram, Facebook } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import ResultDialog, { initialResult, type ResultDialogState } from "@/components/ResultDialog";
 import heroImg from "@/assets/hero-contact.jpg";
 
 const schema = z.object({
-  name: z.string().trim().min(2).max(80),
-  email: z.string().trim().email().max(255),
+  name: z.string().trim().min(2, "Please tell us your name").max(80),
+  email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
-  subject: z.string().trim().min(2).max(120),
-  message: z.string().trim().min(10).max(1000),
+  subject: z.string().trim().min(2, "Please add a subject").max(120),
+  message: z.string().trim().min(10, "A few more words please").max(1000),
 });
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<ResultDialogState>(initialResult);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const r = schema.safeParse(form);
     if (!r.success) {
-      toast({ title: "Please review the form", description: r.error.issues[0].message, variant: "destructive" });
+      setResult({
+        open: true,
+        status: "error",
+        title: "We couldn't send your message",
+        description: r.error.issues[0].message || "Please review the form and try again.",
+      });
       return;
     }
     setLoading(true);
     setTimeout(() => {
-      toast({ title: "Message received ✦", description: "We respond within 24 hours — usually a lot sooner." });
+      setResult({
+        open: true,
+        status: "success",
+        title: "Message received ✦",
+        description: "Thank you. Our concierge will reply within 24 hours — usually a lot sooner.",
+      });
       setForm({ name: "", email: "", phone: "", subject: "", message: "" });
       setLoading(false);
     }, 700);
@@ -104,6 +115,12 @@ const Contact = () => {
           </Reveal>
         </div>
       </section>
+
+      <ResultDialog
+        state={result}
+        onOpenChange={(open) => setResult((s) => ({ ...s, open }))}
+        ctaLabel={result.status === "success" ? "Wonderful" : "Try again"}
+      />
     </Layout>
   );
 };
