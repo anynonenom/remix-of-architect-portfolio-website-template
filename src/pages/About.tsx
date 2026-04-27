@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
+import PageCta from "@/components/PageCta";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
