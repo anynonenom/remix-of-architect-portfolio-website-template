@@ -220,12 +220,20 @@ const Transfers = () => {
         subtitle="Premium vehicles, English-speaking drivers, and the kind of punctuality that lets you stop watching the clock."
       />
 
-      <section className="py-24 bg-background">
+      {/* 1. Service types — orient: what can we do for you? */}
+      <section className="py-20 md:py-24 bg-background">
         <div className="container-edge">
-          <Reveal>
-            <div className="font-mono-accent text-[11px] text-accent mb-4">◆ How we move you</div>
-          </Reveal>
-          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+          <div className="max-w-2xl mb-12">
+            <Reveal>
+              <div className="font-mono-accent text-[11px] text-accent mb-4">◆ How we move you</div>
+            </Reveal>
+            <Reveal delay={0.1} as="h2">
+              <h2 className="font-display text-4xl md:text-6xl text-architectural">
+                Four ways to <span className="font-script text-accent text-5xl md:text-7xl">travel</span> with us.
+              </h2>
+            </Reveal>
+          </div>
+          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {types.map((t) => (
               <StaggerItem key={t.title}>
                 <div className="p-8 bg-card border border-border h-full hover:border-accent transition-colors duration-500 group">
@@ -241,8 +249,138 @@ const Transfers = () => {
         </div>
       </section>
 
-      {/* Booking engine */}
-      <section className="py-24 md:py-32 bg-secondary">
+      {/* 2. Full fleet — browse before booking */}
+      <section id="fleet" className="py-24 md:py-32 bg-secondary">
+        <div className="container-edge">
+          <Reveal>
+            <div className="font-mono-accent text-[11px] text-accent mb-4">◆ The full fleet</div>
+          </Reveal>
+          <Reveal delay={0.1} as="h2">
+            <h2 className="font-display text-5xl md:text-6xl text-architectural mb-4 max-w-3xl">Every vehicle, every journey.</h2>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p className="font-serif text-lg text-muted-foreground max-w-2xl mb-16">
+              From quiet executive sedans to 50-seat luxury coaches and adventure motorbikes — pick the wheels that fit the story you're writing.
+            </p>
+          </Reveal>
+
+          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {fleet.map((v) => (
+              <StaggerItem key={v.name}>
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="group bg-card border border-border overflow-hidden h-full flex flex-col"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+                    <img
+                      src={v.image}
+                      alt={v.name}
+                      loading="lazy"
+                      width={1024}
+                      height={768}
+                      className="h-full w-full object-cover transition-transform duration-[1400ms] ease-smooth group-hover:scale-110"
+                    />
+                    {v.badge && (
+                      <div className="absolute top-4 left-4 bg-accent text-accent-foreground font-mono-accent text-[10px] px-3 py-1.5 tracking-wider">
+                        {v.badge}
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm font-mono-accent text-[10px] px-3 py-1.5 text-foreground">
+                      from €{v.basePrice}
+                    </div>
+                  </div>
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-center gap-2 font-mono-accent text-[10px] text-accent mb-3 tracking-wider">
+                      <v.icon className="h-3.5 w-3.5" />
+                      {v.category}
+                    </div>
+                    <h3 className="font-display text-2xl mb-2 leading-tight">{v.name}</h3>
+                    <p className="font-serif text-base text-muted-foreground leading-relaxed mb-5 flex-1">
+                      {v.description}
+                    </p>
+                    <div className="flex items-center gap-4 pb-4 border-b border-border mb-4 text-xs">
+                      <span className="flex items-center gap-1.5 text-muted-foreground">
+                        <Users className="h-3.5 w-3.5 text-accent" /> {v.seats} pax
+                      </span>
+                      <span className="flex items-center gap-1.5 text-muted-foreground">
+                        <Briefcase className="h-3.5 w-3.5 text-accent" /> {v.luggage} bags
+                      </span>
+                    </div>
+                    <ul className="space-y-1.5 mb-5">
+                      {v.features.map((f) => (
+                        <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <span className="h-1 w-1 rounded-full bg-accent" /> {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setVehicle(v.name);
+                        document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }}
+                      className="font-mono-accent text-[11px] tracking-wider text-foreground hover:text-accent transition-colors text-left link-underline w-fit"
+                    >
+                      Select & quote →
+                    </button>
+                  </div>
+                </motion.div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* 3. Featured spotlight — editorial look at one vehicle */}
+      <section className="py-24 md:py-32 bg-background">
+        <div className="container-edge">
+          <div className="flex items-end justify-between gap-6 mb-12">
+            <Reveal>
+              <div>
+                <div className="font-mono-accent text-[11px] text-accent mb-4">◆ Spotlight</div>
+                <h2 className="font-display text-5xl md:text-6xl text-architectural">Quietly capable.</h2>
+              </div>
+            </Reveal>
+            <div className="flex gap-3">
+              <button onClick={() => setFleetIndex((i) => (i - 1 + fleet.length) % fleet.length)} aria-label="Previous" className="h-11 w-11 grid place-items-center border border-border bg-background hover:bg-primary-deep hover:text-white transition-colors"><ChevronLeft className="h-4 w-4" /></button>
+              <button onClick={() => setFleetIndex((i) => (i + 1) % fleet.length)} aria-label="Next" className="h-11 w-11 grid place-items-center border border-border bg-background hover:bg-primary-deep hover:text-white transition-colors"><ChevronRight className="h-4 w-4" /></button>
+            </div>
+          </div>
+          <Reveal>
+            <div className="grid lg:grid-cols-2 gap-10 items-center">
+              <div className="aspect-[4/3] overflow-hidden bg-background">
+                <img key={fleet[fleetIndex].image} src={fleet[fleetIndex].image} alt={fleet[fleetIndex].name} loading="lazy" width={1024} height={768} className="h-full w-full object-cover animate-scale-in" />
+              </div>
+              <div>
+                <div className="font-mono-accent text-[10px] text-accent mb-3">{(fleetIndex + 1).toString().padStart(2, "0")} / {fleet.length.toString().padStart(2, "0")} · {fleet[fleetIndex].category}</div>
+                <h3 className="font-display text-5xl mb-4">{fleet[fleetIndex].name}</h3>
+                <p className="font-serif text-lg text-muted-foreground leading-relaxed mb-8">
+                  {fleet[fleetIndex].description}
+                </p>
+                <div className="grid grid-cols-3 gap-6">
+                  <Stat label="Seats" value={fleet[fleetIndex].seats.toString()} />
+                  <Stat label="Luggage" value={fleet[fleetIndex].luggage.toString()} />
+                  <Stat label="From" value={`€${fleet[fleetIndex].basePrice}`} />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setVehicle(fleet[fleetIndex].name);
+                    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className="btn-gold mt-10"
+                >
+                  Quote this vehicle
+                </button>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 4. Booking engine — now that they've seen the fleet */}
+      <section id="booking" className="py-24 md:py-32 bg-secondary scroll-mt-24">
         <div className="container-edge grid lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-5">
             <Reveal>
@@ -307,127 +445,7 @@ const Transfers = () => {
         </div>
       </section>
 
-      {/* Full fleet grid — every vehicle type */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="container-edge">
-          <Reveal>
-            <div className="font-mono-accent text-[11px] text-accent mb-4">◆ The full fleet</div>
-          </Reveal>
-          <Reveal delay={0.1} as="h2">
-            <h2 className="font-display text-5xl md:text-6xl text-architectural mb-4 max-w-3xl">Every vehicle, every journey.</h2>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="font-serif text-lg text-muted-foreground max-w-2xl mb-16">
-              From quiet executive sedans to 50-seat luxury coaches and adventure motorbikes — we have the right wheels for every kind of traveller.
-            </p>
-          </Reveal>
-
-          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {fleet.map((v) => (
-              <StaggerItem key={v.name}>
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="group bg-card border border-border overflow-hidden h-full flex flex-col"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
-                    <img
-                      src={v.image}
-                      alt={v.name}
-                      loading="lazy"
-                      width={1024}
-                      height={768}
-                      className="h-full w-full object-cover transition-transform duration-[1400ms] ease-smooth group-hover:scale-110"
-                    />
-                    {v.badge && (
-                      <div className="absolute top-4 left-4 bg-accent text-accent-foreground font-mono-accent text-[10px] px-3 py-1.5 tracking-wider">
-                        {v.badge}
-                      </div>
-                    )}
-                    <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm font-mono-accent text-[10px] px-3 py-1.5 text-foreground">
-                      from €{v.basePrice}
-                    </div>
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <div className="flex items-center gap-2 font-mono-accent text-[10px] text-accent mb-3 tracking-wider">
-                      <v.icon className="h-3.5 w-3.5" />
-                      {v.category}
-                    </div>
-                    <h3 className="font-display text-2xl mb-2 leading-tight">{v.name}</h3>
-                    <p className="font-serif text-base text-muted-foreground leading-relaxed mb-5 flex-1">
-                      {v.description}
-                    </p>
-                    <div className="flex items-center gap-4 pb-4 border-b border-border mb-4 text-xs">
-                      <span className="flex items-center gap-1.5 text-muted-foreground">
-                        <Users className="h-3.5 w-3.5 text-accent" /> {v.seats} pax
-                      </span>
-                      <span className="flex items-center gap-1.5 text-muted-foreground">
-                        <Briefcase className="h-3.5 w-3.5 text-accent" /> {v.luggage} bags
-                      </span>
-                    </div>
-                    <ul className="space-y-1.5 mb-5">
-                      {v.features.map((f) => (
-                        <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <span className="h-1 w-1 rounded-full bg-accent" /> {f}
-                        </li>
-                      ))}
-                    </ul>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setVehicle(v.name);
-                        document.querySelector(".container-edge form")?.scrollIntoView({ behavior: "smooth", block: "center" });
-                      }}
-                      className="font-mono-accent text-[11px] tracking-wider text-foreground hover:text-accent transition-colors text-left link-underline w-fit"
-                    >
-                      Select & quote →
-                    </button>
-                  </div>
-                </motion.div>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
-
-      {/* Featured fleet carousel */}
-      <section className="py-24 md:py-32 bg-secondary">
-        <div className="container-edge">
-          <div className="flex items-end justify-between gap-6 mb-12">
-            <Reveal>
-              <div>
-                <div className="font-mono-accent text-[11px] text-accent mb-4">◆ Spotlight</div>
-                <h2 className="font-display text-5xl md:text-6xl text-architectural">Quietly capable.</h2>
-              </div>
-            </Reveal>
-            <div className="flex gap-3">
-              <button onClick={() => setFleetIndex((i) => (i - 1 + fleet.length) % fleet.length)} aria-label="Previous" className="h-11 w-11 grid place-items-center border border-border bg-background hover:bg-primary-deep hover:text-white transition-colors"><ChevronLeft className="h-4 w-4" /></button>
-              <button onClick={() => setFleetIndex((i) => (i + 1) % fleet.length)} aria-label="Next" className="h-11 w-11 grid place-items-center border border-border bg-background hover:bg-primary-deep hover:text-white transition-colors"><ChevronRight className="h-4 w-4" /></button>
-            </div>
-          </div>
-          <Reveal>
-            <div className="grid lg:grid-cols-2 gap-10 items-center">
-              <div className="aspect-[4/3] overflow-hidden bg-background">
-                <img key={fleet[fleetIndex].image} src={fleet[fleetIndex].image} alt={fleet[fleetIndex].name} loading="lazy" width={1024} height={768} className="h-full w-full object-cover animate-scale-in" />
-              </div>
-              <div>
-                <div className="font-mono-accent text-[10px] text-accent mb-3">{(fleetIndex + 1).toString().padStart(2, "0")} / {fleet.length.toString().padStart(2, "0")} · {fleet[fleetIndex].category}</div>
-                <h3 className="font-display text-5xl mb-4">{fleet[fleetIndex].name}</h3>
-                <p className="font-serif text-lg text-muted-foreground leading-relaxed mb-8">
-                  {fleet[fleetIndex].description}
-                </p>
-                <div className="grid grid-cols-3 gap-6">
-                  <Stat label="Seats" value={fleet[fleetIndex].seats.toString()} />
-                  <Stat label="Luggage" value={fleet[fleetIndex].luggage.toString()} />
-                  <Stat label="From" value={`€${fleet[fleetIndex].basePrice}`} />
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* In-cabin amenities */}
+      {/* 5. Onboard amenities */}
       <section className="py-24 bg-background">
         <div className="container-edge">
           <Reveal>
@@ -454,6 +472,7 @@ const Transfers = () => {
         </div>
       </section>
 
+      {/* 6. Trust strip */}
       <section className="py-24 bg-secondary">
         <div className="container-edge grid md:grid-cols-3 gap-8">
           {[
@@ -462,7 +481,7 @@ const Transfers = () => {
             { icon: BadgeCheck, t: "Fixed prices", b: "No surge, no hidden fees — what you see is what you pay." },
           ].map((p) => (
             <Reveal key={p.t}>
-              <div className="p-8">
+              <div className="p-8 bg-background border border-border h-full">
                 <p.icon className="h-8 w-8 text-accent mb-5" />
                 <h3 className="font-display text-2xl mb-2">{p.t}</h3>
                 <p className="text-muted-foreground leading-relaxed">{p.b}</p>
@@ -471,6 +490,18 @@ const Transfers = () => {
           ))}
         </div>
       </section>
+
+      {/* 7. Closing CTA */}
+      <PageCta
+        image={heroImg}
+        eyebrow="◆ Need more than a ride?"
+        title={<>Pair your transfer with a <em className="text-accent">full journey</em>.</>}
+        subtitle="Our drivers become guides, our rides become stories. Let's weave transport and tour into one seamless itinerary."
+        ctaLabel="Build a custom journey"
+        ctaTo="/custom"
+        secondaryLabel="Browse signature tours"
+        secondaryTo="/tours"
+      />
 
       <ResultDialog
         state={result}
