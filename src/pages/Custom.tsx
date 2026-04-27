@@ -159,11 +159,6 @@ const Custom = () => {
           </Reveal>
 
           {/* Progress */}
-        </div>
-      </section>
-
-      <section className="py-0 md:py-0 bg-background">
-        <div className="container-edge max-w-4xl pb-24 md:pb-32 -mt-8">
           <div className="flex items-center gap-3 mb-10">
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="flex-1 h-1 bg-border overflow-hidden">
