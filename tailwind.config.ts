@@ -12,9 +12,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Outfit', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        display: ['"Cormorant Garamond"', '"Times New Roman"', 'serif'],
+        sans: ['Jost', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        display: ['"Playfair Display"', '"Times New Roman"', 'serif'],
+        script: ['"Homemade Apple"', '"Caveat"', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",
