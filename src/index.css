@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Homemade+Apple&family=Caveat:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,41 +10,41 @@
 
 @layer base {
   :root {
-    /* Palette */
-    --background: 36 33% 97%;      /* warm off-white */
-    --foreground: 224 64% 14%;     /* dark navy ink */
+    /* Palette — Backpack Traveler inspired: warm cream, ink, coral */
+    --background: 33 40% 96%;      /* #F7F3EE warm cream */
+    --foreground: 0 0% 13%;        /* near-black ink */
 
     --card: 0 0% 100%;
-    --card-foreground: 224 64% 14%;
+    --card-foreground: 0 0% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 224 64% 14%;
+    --popover-foreground: 0 0% 13%;
 
-    /* Primary: Deep Blue #1E3A8A */
-    --primary: 224 64% 33%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 219 60% 56%;   /* Soft Blue #4A7BD6 */
-    --primary-deep: 224 64% 14%;   /* Dark Navy #162B66 */
-    --primary-royal: 218 58% 44%;  /* Royal Blue #2F5FB3 */
+    /* Primary: Ink (near-black) */
+    --primary: 0 0% 13%;
+    --primary-foreground: 33 40% 96%;
+    --primary-glow: 12 72% 58%;    /* coral glow */
+    --primary-deep: 0 0% 8%;       /* deep ink */
+    --primary-royal: 0 0% 20%;     /* soft charcoal */
 
-    /* Secondary surface */
-    --secondary: 36 30% 94%;
-    --secondary-foreground: 224 64% 14%;
+    /* Secondary surface — warmer cream */
+    --secondary: 33 35% 92%;
+    --secondary-foreground: 0 0% 13%;
 
-    --muted: 36 20% 92%;
-    --muted-foreground: 224 20% 38%;
+    --muted: 33 25% 90%;
+    --muted-foreground: 0 0% 38%;
 
-    /* Accent: Golden Yellow #F4C20D */
-    --accent: 48 92% 51%;
-    --accent-foreground: 224 64% 14%;
-    --accent-soft: 45 95% 88%;
+    /* Accent: Coral / tomato red #E8625F */
+    --accent: 2 75% 64%;
+    --accent-foreground: 0 0% 100%;
+    --accent-soft: 2 75% 94%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 224 20% 88%;
-    --input: 224 20% 90%;
-    --ring: 48 92% 51%;
+    --border: 33 20% 86%;
+    --input: 33 20% 90%;
+    --ring: 2 75% 64%;
 
     --radius: 0.25rem;
 
@@ -58,16 +58,16 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(224 64% 14% / 0.85) 0%, hsl(218 58% 44% / 0.55) 50%, hsl(224 64% 14% / 0.4) 100%);
-    --gradient-overlay: linear-gradient(180deg, hsl(224 64% 14% / 0.1) 0%, hsl(224 64% 14% / 0.85) 100%);
-    --gradient-royal: linear-gradient(135deg, hsl(224 64% 14%), hsl(224 64% 33%), hsl(219 60% 56%));
-    --gradient-gold: linear-gradient(135deg, hsl(48 92% 51%), hsl(45 95% 65%));
-    --gradient-radial-gold: radial-gradient(circle at top right, hsl(48 92% 51% / 0.18), transparent 60%);
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 8% / 0.7) 0%, hsl(0 0% 8% / 0.35) 50%, hsl(0 0% 8% / 0.55) 100%);
+    --gradient-overlay: linear-gradient(180deg, hsl(0 0% 8% / 0.1) 0%, hsl(0 0% 8% / 0.85) 100%);
+    --gradient-royal: linear-gradient(135deg, hsl(0 0% 8%), hsl(0 0% 20%), hsl(2 75% 64%));
+    --gradient-gold: linear-gradient(135deg, hsl(2 75% 64%), hsl(18 80% 70%));
+    --gradient-radial-gold: radial-gradient(circle at top right, hsl(2 75% 64% / 0.14), transparent 60%);
 
     /* Shadows */
-    --shadow-architectural: 0 30px 80px -20px hsl(224 64% 14% / 0.4);
-    --shadow-elegant: 0 12px 40px -12px hsl(224 64% 14% / 0.18);
-    --shadow-gold: 0 10px 40px -10px hsl(48 92% 51% / 0.5);
+    --shadow-architectural: 0 30px 80px -20px hsl(0 0% 8% / 0.28);
+    --shadow-elegant: 0 12px 40px -12px hsl(0 0% 8% / 0.12);
+    --shadow-gold: 0 10px 40px -10px hsl(2 75% 64% / 0.45);
 
     --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-fast: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -101,25 +101,25 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif;
     font-feature-settings: "ss01", "ss02";
   }
 
   ::selection { background: hsl(var(--accent)); color: hsl(var(--accent-foreground)); }
 
   h1, h2, h3, h4, h5, .font-display {
-    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
     font-weight: 500;
     letter-spacing: -0.01em;
   }
 
-  .font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
-  .font-sans  { font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif; }
-  .font-script { font-family: 'Caveat', 'Brush Script MT', cursive; font-weight: 600; letter-spacing: 0; }
+  .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+  .font-sans  { font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif; }
+  .font-script { font-family: 'Homemade Apple', 'Caveat', 'Brush Script MT', cursive; font-weight: 400; letter-spacing: 0; }
   .font-mono-accent {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Jost', sans-serif;
     text-transform: uppercase;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.28em;
     font-weight: 500;
   }
 }
