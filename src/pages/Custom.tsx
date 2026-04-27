@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { z } from "zod";
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
+import PageCta from "@/components/PageCta";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
-import { ChevronDown, Check, Map, Calendar, Heart, Mail, ArrowRight, Compass, Mountain, Building2, Waves, Camera, Sparkles } from "lucide-react";
+import { ChevronDown, Check, Map, Calendar, Heart, Mail, ArrowRight, Compass, Mountain, Building2, Waves, Camera, Sparkles, ShieldCheck, Clock4, Users } from "lucide-react";
 import ResultDialog, { initialResult, type ResultDialogState } from "@/components/ResultDialog";
 import heroImg from "@/assets/hero-custom.jpg";
 
@@ -99,8 +100,29 @@ const Custom = () => {
         subtitle="Private itineraries, hand-crafted in 48 hours. Tell us your shape of perfect — we draw the route."
       />
 
-      {/* How it works */}
-      <section className="py-24 md:py-32 bg-background">
+      {/* 1. Why bespoke — frame the value before the form */}
+      <section className="py-20 md:py-24 bg-background border-b border-border">
+        <div className="container-edge grid lg:grid-cols-12 gap-10 items-end">
+          <div className="lg:col-span-7">
+            <Reveal>
+              <div className="font-mono-accent text-[11px] text-accent mb-4">◆ Why bespoke</div>
+            </Reveal>
+            <Reveal delay={0.1} as="h2">
+              <h2 className="font-display text-4xl md:text-6xl text-architectural">
+                Because no two travellers want <span className="font-script text-accent text-5xl md:text-7xl">the same</span> Morocco.
+              </h2>
+            </Reveal>
+          </div>
+          <Reveal delay={0.2} className="lg:col-span-5">
+            <p className="font-serif text-lg text-muted-foreground leading-relaxed">
+              Skip the catalogue. Tell us how you like to travel — fast or slow, loud or hidden, markets or mountains — and we'll design the journey only you would take. No templates, no fillers, just you.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 2. How it works */}
+      <section className="py-24 md:py-32 bg-secondary">
         <div className="container-edge">
           <Reveal>
             <div className="font-mono-accent text-[11px] text-accent mb-4">◆ How it works</div>
@@ -111,7 +133,7 @@ const Custom = () => {
           <Stagger className="grid md:grid-cols-3 gap-8 relative">
             {steps.map((s, i) => (
               <StaggerItem key={s.n}>
-                <div className="relative p-8 bg-secondary h-full">
+                <div className="relative p-8 bg-background h-full">
                   <div className="font-display text-7xl text-accent/30 absolute top-4 right-6">{s.n}</div>
                   <s.icon className="h-10 w-10 text-accent mb-6 relative" />
                   <h3 className="font-display text-3xl mb-3">{s.title}</h3>
