@@ -249,7 +249,38 @@ const Custom = () => {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* 4. Reassurance — what happens after you send */}
+      <section className="py-20 md:py-24 bg-secondary border-y border-border">
+        <div className="container-edge">
+          <div className="max-w-2xl mb-12">
+            <Reveal>
+              <div className="font-mono-accent text-[11px] text-accent mb-4">◆ What happens next</div>
+            </Reveal>
+            <Reveal delay={0.1} as="h2">
+              <h2 className="font-display text-3xl md:text-5xl text-architectural">
+                After you press send, here's what you can expect.
+              </h2>
+            </Reveal>
+          </div>
+          <Stagger className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: Clock4, t: "Reply in 24 hours", b: "A real human reads every request — no bots, no auto-replies." },
+              { icon: Users, t: "One dedicated planner", b: "You'll work with the same Bo Voyages planner from first email to final goodbye." },
+              { icon: ShieldCheck, t: "Zero obligation", b: "Your draft itinerary is free. You only pay if you fall in love with it." },
+            ].map((p) => (
+              <StaggerItem key={p.t}>
+                <div className="p-8 bg-background border border-border h-full">
+                  <p.icon className="h-8 w-8 text-accent mb-5" />
+                  <h3 className="font-display text-2xl mb-2">{p.t}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{p.b}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* 5. FAQ */}
       <section className="py-24 md:py-32 bg-background">
         <div className="container-edge max-w-3xl">
           <Reveal>
@@ -280,6 +311,18 @@ const Custom = () => {
           </div>
         </div>
       </section>
+
+      {/* 6. Closing CTA */}
+      <PageCta
+        image={heroImg}
+        eyebrow="◆ Still thinking?"
+        title={<>Morocco is waiting. <em className="text-accent">So are we.</em></>}
+        subtitle="Prefer to chat first? Send us a quick note and we'll set up a call with your dedicated planner."
+        ctaLabel="Talk to a concierge"
+        ctaTo="/contact"
+        secondaryLabel="Browse signature tours"
+        secondaryTo="/tours"
+      />
 
       <ResultDialog
         state={result}
