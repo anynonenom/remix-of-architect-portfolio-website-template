@@ -2,13 +2,22 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
+import PageCta from "@/components/PageCta";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
-import { ArrowUpRight, Clock, MapPin } from "lucide-react";
+import { ArrowUpRight, Clock, MapPin, Compass, Users, Leaf, Heart } from "lucide-react";
 import heroImg from "@/assets/hero-tours.jpg";
+import ctaBg from "@/assets/tour-merzouga.jpg";
 import { tours } from "@/data/tours";
 
 const filters = ["All", "Sahara", "Atlas", "Coast", "Imperial cities", "Culture", "Marrakech"];
+
+const promises = [
+  { icon: Compass, title: "Hand-drawn routes", body: "Every itinerary built by local experts — no off-the-shelf catalogues." },
+  { icon: Users, title: "Small groups", body: "Maximum 12 travellers so each morning feels intimate, each meal shared." },
+  { icon: Leaf, title: "Slow & sustainable", body: "We stay in family riads and hire Berber guides — your money stays where it matters." },
+  { icon: Heart, title: "Concierge 24/7", body: "From the first email to your flight home, a real human is one message away." },
+];
 
 const Tours = () => {
   const [active, setActive] = useState("All");
@@ -28,7 +37,29 @@ const Tours = () => {
         subtitle="A library of routes we have shaped over a decade — from desert nights to mountain dawns."
       />
 
-      <section className="py-24 md:py-32 bg-background">
+      {/* 1. Intro strip — orient the visitor */}
+      <section className="py-20 md:py-24 bg-background border-b border-border">
+        <div className="container-edge grid lg:grid-cols-12 gap-10 items-end">
+          <div className="lg:col-span-7">
+            <Reveal>
+              <div className="font-mono-accent text-[11px] text-accent mb-4">◆ Where to begin</div>
+            </Reveal>
+            <Reveal delay={0.1} as="h2">
+              <h2 className="font-display text-4xl md:text-6xl text-architectural">
+                <span className="font-script text-accent text-5xl md:text-7xl">{tours.length}</span> signature journeys, one unforgettable country.
+              </h2>
+            </Reveal>
+          </div>
+          <Reveal delay={0.2} className="lg:col-span-5">
+            <p className="font-serif text-lg text-muted-foreground leading-relaxed">
+              Filter by region below, open any journey to see day-by-day itineraries, or let us shape one just for you. Each tour runs privately for your group — dates and pace, yours to set.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 2. Filters + grid */}
+      <section className="py-20 md:py-28 bg-background">
         <div className="container-edge">
           <Reveal>
             <div className="flex flex-wrap gap-2 mb-12">
@@ -86,8 +117,50 @@ const Tours = () => {
           </Stagger>
         </div>
       </section>
+
+      {/* 3. Why travel with us — reassurance after browsing */}
+      <section className="py-24 md:py-32 bg-secondary">
+        <div className="container-edge">
+          <div className="max-w-2xl mb-16">
+            <Reveal>
+              <div className="font-mono-accent text-[11px] text-accent mb-4">◆ The Bo Voyages promise</div>
+            </Reveal>
+            <Reveal delay={0.1} as="h2">
+              <h2 className="font-display text-4xl md:text-6xl text-architectural">
+                Why travellers come back — and bring their friends.
+              </h2>
+            </Reveal>
+          </div>
+          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {promises.map((p) => (
+              <StaggerItem key={p.title}>
+                <div className="p-8 bg-background border border-border h-full hover:border-accent transition-colors duration-500 group">
+                  <div className="h-12 w-12 grid place-items-center bg-accent/10 text-accent mb-6 group-hover:bg-accent group-hover:text-primary-deep transition-colors duration-500">
+                    <p.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="font-display text-2xl mb-3">{p.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{p.body}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* 4. Closing CTA — bridge to custom or contact */}
+      <PageCta
+        image={ctaBg}
+        eyebrow="◆ Not quite the right fit?"
+        title={<>Let us shape a journey <em className="text-accent">around you</em>.</>}
+        subtitle="Tell us your dates, pace and dreams — we return a bespoke itinerary within 48 hours."
+        ctaLabel="Build a custom journey"
+        ctaTo="/custom"
+        secondaryLabel="Talk to a concierge"
+        secondaryTo="/contact"
+      />
     </Layout>
   );
 };
 
 export default Tours;
+

@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { z } from "zod";
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
+import PageCta from "@/components/PageCta";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
-import { ChevronDown, Check, Map, Calendar, Heart, Mail, ArrowRight, Compass, Mountain, Building2, Waves, Camera, Sparkles } from "lucide-react";
+import { ChevronDown, Check, Map, Calendar, Heart, Mail, ArrowRight, Compass, Mountain, Building2, Waves, Camera, Sparkles, ShieldCheck, Clock4, Users } from "lucide-react";
 import ResultDialog, { initialResult, type ResultDialogState } from "@/components/ResultDialog";
 import heroImg from "@/assets/hero-custom.jpg";
 
@@ -99,8 +100,29 @@ const Custom = () => {
         subtitle="Private itineraries, hand-crafted in 48 hours. Tell us your shape of perfect — we draw the route."
       />
 
-      {/* How it works */}
-      <section className="py-24 md:py-32 bg-background">
+      {/* 1. Why bespoke — frame the value before the form */}
+      <section className="py-20 md:py-24 bg-background border-b border-border">
+        <div className="container-edge grid lg:grid-cols-12 gap-10 items-end">
+          <div className="lg:col-span-7">
+            <Reveal>
+              <div className="font-mono-accent text-[11px] text-accent mb-4">◆ Why bespoke</div>
+            </Reveal>
+            <Reveal delay={0.1} as="h2">
+              <h2 className="font-display text-4xl md:text-6xl text-architectural">
+                Because no two travellers want <span className="font-script text-accent text-5xl md:text-7xl">the same</span> Morocco.
+              </h2>
+            </Reveal>
+          </div>
+          <Reveal delay={0.2} className="lg:col-span-5">
+            <p className="font-serif text-lg text-muted-foreground leading-relaxed">
+              Skip the catalogue. Tell us how you like to travel — fast or slow, loud or hidden, markets or mountains — and we'll design the journey only you would take. No templates, no fillers, just you.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 2. How it works */}
+      <section className="py-24 md:py-32 bg-secondary">
         <div className="container-edge">
           <Reveal>
             <div className="font-mono-accent text-[11px] text-accent mb-4">◆ How it works</div>
@@ -111,7 +133,7 @@ const Custom = () => {
           <Stagger className="grid md:grid-cols-3 gap-8 relative">
             {steps.map((s, i) => (
               <StaggerItem key={s.n}>
-                <div className="relative p-8 bg-secondary h-full">
+                <div className="relative p-8 bg-background h-full">
                   <div className="font-display text-7xl text-accent/30 absolute top-4 right-6">{s.n}</div>
                   <s.icon className="h-10 w-10 text-accent mb-6 relative" />
                   <h3 className="font-display text-3xl mb-3">{s.title}</h3>
@@ -126,8 +148,8 @@ const Custom = () => {
         </div>
       </section>
 
-      {/* Form */}
-      <section className="py-24 md:py-32 bg-secondary">
+      {/* 3. Form */}
+      <section className="py-24 md:py-32 bg-background">
         <div className="container-edge max-w-4xl">
           <Reveal>
             <div className="font-mono-accent text-[11px] text-accent mb-4 text-center">◆ Begin your journey</div>
@@ -145,7 +167,7 @@ const Custom = () => {
             ))}
           </div>
 
-          <div className="bg-background p-8 md:p-12 shadow-elegant min-h-[420px]">
+          <div className="bg-secondary p-8 md:p-12 shadow-elegant min-h-[420px] border border-border">
             <AnimatePresence mode="wait">
               <motion.div key={step} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.4 }}>
                 {step === 0 && (
@@ -227,7 +249,38 @@ const Custom = () => {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* 4. Reassurance — what happens after you send */}
+      <section className="py-20 md:py-24 bg-secondary border-y border-border">
+        <div className="container-edge">
+          <div className="max-w-2xl mb-12">
+            <Reveal>
+              <div className="font-mono-accent text-[11px] text-accent mb-4">◆ What happens next</div>
+            </Reveal>
+            <Reveal delay={0.1} as="h2">
+              <h2 className="font-display text-3xl md:text-5xl text-architectural">
+                After you press send, here's what you can expect.
+              </h2>
+            </Reveal>
+          </div>
+          <Stagger className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: Clock4, t: "Reply in 24 hours", b: "A real human reads every request — no bots, no auto-replies." },
+              { icon: Users, t: "One dedicated planner", b: "You'll work with the same Bo Voyages planner from first email to final goodbye." },
+              { icon: ShieldCheck, t: "Zero obligation", b: "Your draft itinerary is free. You only pay if you fall in love with it." },
+            ].map((p) => (
+              <StaggerItem key={p.t}>
+                <div className="p-8 bg-background border border-border h-full">
+                  <p.icon className="h-8 w-8 text-accent mb-5" />
+                  <h3 className="font-display text-2xl mb-2">{p.t}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{p.b}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* 5. FAQ */}
       <section className="py-24 md:py-32 bg-background">
         <div className="container-edge max-w-3xl">
           <Reveal>
@@ -258,6 +311,18 @@ const Custom = () => {
           </div>
         </div>
       </section>
+
+      {/* 6. Closing CTA */}
+      <PageCta
+        image={heroImg}
+        eyebrow="◆ Still thinking?"
+        title={<>Morocco is waiting. <em className="text-accent">So are we.</em></>}
+        subtitle="Prefer to chat first? Send us a quick note and we'll set up a call with your dedicated planner."
+        ctaLabel="Talk to a concierge"
+        ctaTo="/contact"
+        secondaryLabel="Browse signature tours"
+        secondaryTo="/tours"
+      />
 
       <ResultDialog
         state={result}
