@@ -148,8 +148,8 @@ const Custom = () => {
         </div>
       </section>
 
-      {/* Form */}
-      <section className="py-24 md:py-32 bg-secondary">
+      {/* 3. Form */}
+      <section className="py-24 md:py-32 bg-background">
         <div className="container-edge max-w-4xl">
           <Reveal>
             <div className="font-mono-accent text-[11px] text-accent mb-4 text-center">◆ Begin your journey</div>
@@ -159,6 +159,11 @@ const Custom = () => {
           </Reveal>
 
           {/* Progress */}
+        </div>
+      </section>
+
+      <section className="py-0 md:py-0 bg-background">
+        <div className="container-edge max-w-4xl pb-24 md:pb-32 -mt-8">
           <div className="flex items-center gap-3 mb-10">
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="flex-1 h-1 bg-border overflow-hidden">
@@ -167,7 +172,7 @@ const Custom = () => {
             ))}
           </div>
 
-          <div className="bg-background p-8 md:p-12 shadow-elegant min-h-[420px]">
+          <div className="bg-secondary p-8 md:p-12 shadow-elegant min-h-[420px] border border-border">
             <AnimatePresence mode="wait">
               <motion.div key={step} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.4 }}>
                 {step === 0 && (
