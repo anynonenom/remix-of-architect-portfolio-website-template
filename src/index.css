@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -115,6 +115,7 @@
 
   .font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
   .font-sans  { font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif; }
+  .font-script { font-family: 'Caveat', 'Brush Script MT', cursive; font-weight: 600; letter-spacing: 0; }
   .font-mono-accent {
     font-family: 'Outfit', sans-serif;
     text-transform: uppercase;
