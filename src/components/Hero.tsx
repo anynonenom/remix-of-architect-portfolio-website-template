@@ -70,7 +70,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="block text-6xl md:text-8xl lg:text-[10rem] italic text-accent"
+            className="block font-script text-accent text-6xl md:text-8xl lg:text-[9rem] leading-[1.1] mt-2"
           >
             beyond maps.
           </motion.span>
