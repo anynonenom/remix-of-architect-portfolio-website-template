@@ -101,6 +101,18 @@ const About = () => {
           <Reveal delay={0.3}><p className="font-serif text-xl text-white/85 max-w-2xl mx-auto mt-8 leading-relaxed">A portion of every booking funds Berber school programmes in the Atlas mountains. Slow tourism, made meaningful.</p></Reveal>
         </div>
       </section>
+
+      {/* Final bridge — invite them to plan */}
+      <PageCta
+        image={storyImg}
+        eyebrow="◆ Now, your chapter"
+        title={<>Ready to write your own <em className="text-accent">Morocco story</em>?</>}
+        subtitle="Pick a signature journey, or let us design one just for you — we're only an email away."
+        ctaLabel="Begin your custom journey"
+        ctaTo="/custom"
+        secondaryLabel="Browse signature tours"
+        secondaryTo="/tours"
+      />
     </Layout>
   );
 };
