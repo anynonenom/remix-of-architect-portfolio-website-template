@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
+import PageCta from "@/components/PageCta";
 import { Seo } from "@/components/Seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import {
